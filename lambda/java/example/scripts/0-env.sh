@@ -2,7 +2,7 @@ ROLE_NAME=lambda-ex
 
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 ARTIFACT_BUCKET=$([ -f bucket-name.txt ] && cat bucket-name.txt)
-LAYER_VERSION_ARN=$([ -f layer-version-arn.txt ] && cat layer-version-arn.txt)
+LAYER_VERSION_ARN=
 
 ## レイヤー作成
 create_layer () {
@@ -21,6 +21,11 @@ get_layer_version_arn () {
 
 ## 関数作成
 create_function () {
+	if [ -z $LAYER_VERSION_ARN ]; then
+		echo "No layer version arn."
+		exit 1
+	fi
+
 	aws lambda create-function \
 		--function-name $1 \
 		--handler $2 \
@@ -43,7 +48,6 @@ exists_function () {
 	aws lambda get-function --function-name $1 >& /dev/null
 }
 
-
 ## 関数一括更新
 update_functions () {
 	local s3key=$1
@@ -59,3 +63,18 @@ update_functions () {
 	done
 }
 
+## 関数削除
+delete_function () {
+	aws lambda delete-function --function-name $1	
+}
+
+## 関数一括削除
+delete_functions () {
+	while (($# > 0)); do
+		echo "Delete function: $1"
+		if exists_function $1; then
+			delete_function $1
+		fi
+		shift 2
+	done
+}
