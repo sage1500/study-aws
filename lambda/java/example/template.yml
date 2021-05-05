@@ -1,0 +1,84 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Lambda application that calls the Lambda API.
+Resources:
+  HelloFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/distributions/example.zip
+      Handler: example.Hello
+      Runtime: java11
+      Description: Java function
+      MemorySize: 512
+      Timeout: 15
+      # Function's execution role
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+      Tracing: Active
+      Layers:
+        - !Ref libs
+  Hello2Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/distributions/example.zip
+      Handler: example.Hello2
+      Runtime: java11
+      Description: Java function
+      MemorySize: 512
+      Timeout: 15
+      # Function's execution role
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+      Tracing: Active
+      Layers:
+        - !Ref libs
+  Hello3Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/distributions/example.zip
+      Handler: example.Hello3::hello3
+      Runtime: java11
+      Description: Java function
+      MemorySize: 512
+      Timeout: 15
+      # Function's execution role
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+      Tracing: Active
+      Layers:
+        - !Ref libs
+  Hello4Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/distributions/example.zip
+      Handler: example.Hello4::hello4
+      Runtime: java11
+      Description: Java function
+      MemorySize: 512
+      Timeout: 15
+      # Function's execution role
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - AWSLambda_ReadOnlyAccess
+        - AWSXrayWriteOnlyAccess
+        - AWSLambdaVPCAccessExecutionRole
+      Tracing: Active
+      Layers:
+        - !Ref libs
+  libs:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: example-libs
+      Description: Dependencies for Example.
+      ContentUri: build/distributions/example-libs.zip
+      CompatibleRuntimes:
+        - java11
