@@ -1,0 +1,6 @@
+/* error は bootstrap に定義がないので独自に定義 */
+.alert-error {
+    color: #d85030;
+    background-color: #fff1f0;
+    border-color: #ffecb5;
+}

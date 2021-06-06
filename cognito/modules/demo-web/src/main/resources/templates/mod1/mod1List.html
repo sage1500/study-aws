@@ -1,0 +1,156 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/template :: layout(~{::title},~{::body/content()})}">
+
+<head>
+    <title th:text="#{title.mod1.list}">List</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2 th:text="#{title.mod1.list}">List</h2>
+
+        <a th:href="@{/mod1/create?form}" class="btn btn-info" th:text="#{label.w1.mod1.createNew}">CreateNew</a>
+
+        <hr>
+        <table class="table table-light table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th th:text="#{label.w1.mod1.prop1}">prop1</th>
+                    <th th:text="#{label.w1.mod1.prop2}">prop2</th>
+                    <th th:text="#{label.w1.mod1.prop3}">prop3</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="mod1, status : ${page.content}" th:object="${mod1}">
+                    <td><input type="radio" name="check" th:value="*{id}"></td>
+                    <td th:text="*{prop1}">prop1</td>
+                    <td th:text="*{prop2}">prop2</td>
+                    <td th:text="*{prop3}">prop3</td>
+                    <td>
+                        <form th:action="@{/mod1/{id}(id=*{id})}">
+                            <button th:text="#{label.w1.mod1.detail}" class="btn btn-info">Detail</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div th:replace="~{common/common-parts :: pagination (${page})}"></div>
+
+        <hr>
+        <div class="row">
+            <!-- 「詳細」ボタン -->
+            <div class="col-md"><button id="detailBtn" th:text="#{label.w1.mod1.detail}" class="btn btn-info"
+                    disabled>Detail</button></div>
+        </div>
+        <hr>
+        <div class="container">
+            <!-- エラー表示エリア -->
+            <div id="result_fail" class="row alert alert-warning collapse">
+            </div>
+            <!-- 結果表示エリア -->
+            <div id="result_success" class="row alert alert-info collapse">
+                <form id="detailForm" class="row">
+                    <input type="hidden" id="detail_id" name="id">
+                    <input type="hidden" id="detail_version" name="version">
+                    <div class="col-md-2" th:text="#{label.w1.mod1.prop1}">prop1</div>
+                    <div class="col-md-10"><input type="text" id="detail_prop1" name="prop1"></div>
+                    <div class="col-md-2" th:text="#{label.w1.mod1.prop2}">prop2</div>
+                    <div class="col-md-10"><input type="text" id="detail_prop2" name="prop2"></div>
+                    <div class="col-md-2" th:text="#{label.w1.mod1.prop3}">prop3</div>
+                    <div class="col-md-10"><input type="text" id="detail_prop3" name="prop3"></div>
+                </form>
+                <div class="col-md-auto"><button id="updateBtn" th:text="#{label.w1.mod1.update}"
+                        class="btn btn-primary">Execute</button></div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        $(function () {
+            // ラジオボタンが選択されたら「詳細」ボタンを活性化する
+            $('input[name="check"]:radio').change(function () {
+                if ($(this).val()) {
+                    $('#detailBtn').removeAttr('disabled');
+                }
+            });
+
+            // 「詳細」ボタン押下時の動作
+            $('#detailBtn').click(function () {
+                var selectedId = $('input[name=check]:checked').val();
+                if (!selectedId) {
+                    return;
+                }
+
+                var baseUrl = /*[[@{/mod1}]]*/ '/mod1';
+
+                // たまにエラーにするために仕込み
+                // if ((new Date().getTime() % 100) < 50) {
+                //     selectedId = "999999";
+                // }
+
+                $.get({
+                    url: baseUrl + '/' + selectedId,
+                    dataType: 'json'
+                }).then(
+                    function (results) {
+                        console.log("results:", results);
+
+                        // 表示エリアの切り替え
+                        $('#result_success').addClass('show');
+                        $('#result_fail').removeClass('show');
+
+                        // 結果反映
+                        $('#detail_id').val(results.id);
+                        $('#detail_version').val(results.version);
+                        $('#detail_prop1').val(results.prop1);
+                        $('#detail_prop2').val(results.prop2);
+                        $('#detail_prop3').val(results.prop3);
+                    },
+                    function (jqXHR, textStatus, errorThrown) {
+                        console.warn("Ajax Fail:", jqXHR.status, textStatus, ",", errorThrown.message);
+
+                        // 表示エリアの切り替え
+                        $('#result_success').removeClass('show');
+                        $('#result_fail').addClass('show');
+
+                        // 結果反映
+                        var message = /*[[#{w.w1.m1.0900}]]*/ "error";
+                        $('#result_fail').text(message);
+                    }
+                );
+            });
+
+            // 「更新」ボタン押下時の動作
+            $('#updateBtn').click(function () {
+                var baseUrl = /*[[@{/mod1}]]*/ '/mod1';
+                var id = $('#detail_id').val();
+                var data = $('#detailForm').serialize();
+                $.post({
+                    url: baseUrl + '/' + id + '/update',
+                    data: data,
+                    dataType: 'json'
+                }).then(
+                    function (results) {
+                        // 部分更新する機能までは作りこむ気はないので画面全体をリロード
+                        location.reload();
+                    },
+                    function (jqXHR, textStatus, errorThrown) {
+                        console.warn("Ajax Fail:", jqXHR.status, textStatus, ",", errorThrown.message);
+
+                        // 表示エリアの切り替え
+                        $('#result_success').removeClass('show');
+                        $('#result_fail').addClass('show');
+
+                        // 結果反映
+                        var message = /*[[#{w.w1.m1.0901}]]*/ "error";
+                        $('#result_fail').text(message);
+                    }
+                );
+            });
+        });
+    </script>
+</body>
+
+</html>

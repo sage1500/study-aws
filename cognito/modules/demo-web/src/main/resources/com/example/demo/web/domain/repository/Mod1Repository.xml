@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.web.domain.repository.Mod1Repository">
+
+    <select id="count" resultType="_long">
+        SELECT COUNT(1) FROM mod1
+    </select>
+
+    <select id="findOne" resultType="com.example.demo.web.domain.entity.Mod1">
+        SELECT
+            id,
+            prop1,
+            prop2,
+            prop3,
+            version
+        FROM mod1
+        WHERE id = #{id}
+    </select>
+
+    <select id="findAll" resultType="com.example.demo.web.domain.entity.Mod1">
+        SELECT
+            id,
+            prop1,
+            prop2,
+            prop3,
+            version
+        FROM mod1
+    </select>
+
+    <select id="findPage" resultType="com.example.demo.web.domain.entity.Mod1">
+        SELECT
+            id,
+            prop1,
+            prop2,
+            prop3,
+            version
+        FROM mod1
+        ORDER BY
+            id
+        LIMIT
+            #{pageable.pageSize}
+        OFFSET
+            #{pageable.offset}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mod1 (prop1, prop2, prop3, version)
+        VALUES (#{prop1}, #{prop2}, #{prop3}, 1)
+    </insert>
+
+    <update id="update">
+        UPDATE mod1 
+        SET
+            prop1 = #{prop1},
+            prop2 = #{prop2},
+            prop3 = #{prop3},
+            version = version + 1
+        WHERE
+            id = #{id}
+            AND version = #{version}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM mod1
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

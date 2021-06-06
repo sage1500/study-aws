@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/template :: layout(~{::title},~{::body/content()})}">
+
+<head>
+    <title th:text="#{title.mod1.detail}">Detail</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2 th:text="#{title.mod1.detail}">Detail</h2>
+
+        <div class="row g-1" th:object="${mod1Form}">
+            <div class="col-md-2"  th:text="#{label.w1.mod1.prop1}">prop1</div>
+            <div class="col-md-10" th:text="*{prop1}"></div>
+
+            <div class="col-md-2"  th:text="#{label.w1.mod1.prop2}">prop2</div>
+            <div class="col-md-10" th:text="*{prop2}"></div>
+
+            <div class="col-md-2"  th:text="#{label.w1.mod1.prop3}">prop3</div>
+            <div class="col-md-10" th:text="*{prop3}"></div>
+        </div>
+
+        <div>
+            <form th:action="@{/mod1/{id}/update(id=*{id})}" th:object="${mod1Form}" class="d-inline">
+                <button name="form" th:text="#{label.w1.mod1.edit}" class="btn btn-info"></button>
+            </form>
+            <form th:action="@{/mod1/{id}/delete(id=*{id})}" method="post" th:object="${mod1Form}" class="d-inline">
+                <button th:text="#{label.w1.mod1.delete}" class="btn btn-danger"></button>
+            </form>
+        </div>
+        <hr>
+        <a th:href="@{/mod1/list}" th:text="#{label.w1.mod1.returnToList}" class="btn btn-secondary">Return</a>
+    </div>
+</body>
+
+</html>

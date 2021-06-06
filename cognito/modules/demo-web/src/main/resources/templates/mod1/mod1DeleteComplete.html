@@ -1,0 +1,16 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/template :: layout(~{::title},~{::body/content()})}">
+
+<head>
+    <title th:text="#{title.mod1.deleteComplete}">Complete</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2 th:text="#{title.mod1.deleteComplete}">Complete</h2>
+        <span th:replace="~{common/common-parts :: messagesPanel}"></span>
+        <a th:href="@{/mod1/list}" th:text="#{label.w1.mod1.returnToList}" class="btn btn-success">Return</a>
+    </div>
+</body>
+
+</html>

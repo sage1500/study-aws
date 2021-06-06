@@ -1,0 +1,14 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/template :: layout(~{::title},~{::body/content()})}">
+
+<head>
+    <title th:text="#{title.home.top}">Home</title>
+</head>
+
+<body>
+    <ul>
+        <li><a th:href="@{/mod1/list}" th:text="#{label.w1.mod1.toMod1}">go to mod1</a></li>
+    </ul>
+</body>
+
+</html>

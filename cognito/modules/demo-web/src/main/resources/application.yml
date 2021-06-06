@@ -1,0 +1,55 @@
+spring.application.name: web
+server:
+  port: 8080
+spring.main.banner-mode: off
+
+## ログレベル
+logging.level:
+  com.example: DEBUG
+
+## thymeleaf
+spring.thymeleaf:
+  mode: HTML
+
+##
+spring.messages:
+  basename: i18n.messages
+  cache-duration: -1
+
+## DataSource(Postgres)
+spring.datasource:
+  platform: postgresql
+  driverClassName: org.postgresql.Driver
+  url: jdbc:postgresql://localhost:5432/demo
+  username: postgres
+  password: postgres
+
+## Flyway
+spring.flyway:
+  enabled: true
+  baseline-on-migrate: true
+
+## MyBatis
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+services:
+  ## Cognito
+  cognito:
+    base-url: https://sage1500.auth.ap-northeast-1.amazoncognito.com
+    logout-endpoint: ${services.cognito.base-url}/logout
+
+## Spring Security (OAuth2クライアント)
+spring.security.oauth2.client:
+  registration:
+    demoapp:
+      provider: cognito
+      client-id: 2ge19eqiue8as3kt7aka47prb2
+      client-secret: 1e0p49pkkdi4l1hhtnnsaes60t3c9lirog8rhmq0tmt43bn0tiai
+      client-name: demoapp
+      scope: openid, email, phone, profile
+  provider:
+    cognito:
+      issuer-uri: https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_19w4j4Nl9
+

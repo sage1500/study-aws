@@ -1,0 +1,19 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>header</title>
+</head>
+
+<body>
+    <div th:fragment="header" th:remove="tag">
+        <div style="background: #e5eCf9;">
+            Demo Application
+            <form th:action="@{/logout}" method="post" style="display: inline;">
+                <button class="btn btn-secondary">ログアウト</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

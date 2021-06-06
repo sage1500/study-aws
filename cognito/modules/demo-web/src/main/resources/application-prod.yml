@@ -1,0 +1,31 @@
+server.port: 8081
+
+## ログレベル
+logging.level:
+  com.example: INFO
+
+## ログファイル
+logging:
+  file.name: /var/log/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: ${LOG_FILE}.%d{yyyyMMddHH}.%i.log
+      max-file-size: 100KB
+      max-history: 7
+
+# ##
+# spring.messages:
+#   basename: i18n.messages
+#   cache-duration: -1
+
+# ## DataSource(Postgres)
+# spring.datasource:
+#   url: jdbc:postgresql://localhost:5432/demo
+#   username: postgres
+#   password: postgres
+
+# ## Flyway
+# spring.flyway:
+#   enabled: true
+#   baseline-on-migrate: true
+
