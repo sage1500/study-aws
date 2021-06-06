@@ -2,6 +2,8 @@ package com.example.demo.web.common.config;
 
 import java.util.function.Consumer;
 
+import com.example.demo.web.common.cognito.CognitoOidcClientInitiatedLogoutSuccessHandler;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.i18n.LocaleContextHolder;

@@ -37,19 +37,20 @@ mybatis:
 services:
   ## Cognito
   cognito:
-    base-url: https://sage1500.auth.ap-northeast-1.amazoncognito.com
+    base-url: https://${COGNITO_DOMAIN_PREFIX}.auth.ap-northeast-1.amazoncognito.com
     logout-endpoint: ${services.cognito.base-url}/logout
+    user-pool-id: ${COGNITO_USER_POOL_ID}
 
 ## Spring Security (OAuth2クライアント)
 spring.security.oauth2.client:
   registration:
     demoapp:
       provider: cognito
-      client-id: 2ge19eqiue8as3kt7aka47prb2
-      client-secret: 1e0p49pkkdi4l1hhtnnsaes60t3c9lirog8rhmq0tmt43bn0tiai
+      client-id: ${COGNITO_CLIENT_ID}
+      client-secret: ${COGNITO_CLIENT_SECRET}
       client-name: demoapp
       scope: openid, email, phone, profile
   provider:
     cognito:
-      issuer-uri: https://cognito-idp.ap-northeast-1.amazonaws.com/ap-northeast-1_19w4j4Nl9
+      issuer-uri: https://cognito-idp.ap-northeast-1.amazonaws.com/${COGNITO_USER_POOL_ID}
 

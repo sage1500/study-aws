@@ -1,4 +1,4 @@
-package com.example.demo.web.common.config;
+package com.example.demo.web.common.cognito;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;

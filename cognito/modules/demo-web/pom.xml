@@ -57,7 +57,7 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- Dozer -->
 		<dependency>
 			<groupId>com.github.dozermapper</groupId>
@@ -104,6 +104,13 @@
 			<groupId>org.terasoluna.gfw</groupId>
 			<artifactId>terasoluna-gfw-common</artifactId>
 		</dependency>
+
+		<!-- AWS Cognito -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>cognitoidentityprovider</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
