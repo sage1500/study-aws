@@ -1,0 +1,2 @@
+aws.paramstore:
+  enabled: false

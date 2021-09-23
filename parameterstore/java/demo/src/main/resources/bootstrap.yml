@@ -1,0 +1,13 @@
+spring.application.name: demo
+
+aws.paramstore:
+  #prefix: /config
+  defaultContext: environment
+  #profileSeparator: _
+  #region:
+  #endpoint:
+  #failFast: true
+  #name:
+  #enabled: false
+
+my.env2.env3: ${HOST1:no}

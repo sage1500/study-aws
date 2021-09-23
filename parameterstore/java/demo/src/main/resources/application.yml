@@ -1,0 +1,7 @@
+
+logging.level:
+  io.awspring.cloud.paramstore.AwsParamStorePropertySource: debug
+
+my.env:
+  env1: hoge
+  env2: ${HOST1:no}
